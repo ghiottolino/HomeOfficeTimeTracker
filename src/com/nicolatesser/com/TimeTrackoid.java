@@ -3,9 +3,12 @@ package com.nicolatesser.com;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.TabActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
@@ -17,9 +20,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TabHost;
 import android.widget.TextView;
 
-public class TimeTrackoid extends Activity {
+public class TimeTrackoid extends TabActivity {
 	
     private static final String TAG = "TimeTrackoid";
 	
@@ -79,16 +83,38 @@ public class TimeTrackoid extends Activity {
         mListView = (ListView) findViewById(R.id.list);
 
         
+        // define tabs:
+        
+        Resources res = getResources();
+        TabHost tabHost = getTabHost();  // The activity TabHost
+        TabHost.TabSpec spec;  // Resusable TabSpec for each tab
+        Intent intent;  // Reusable Intent for each tab
+
+        // tab1
+        
+        intent = new Intent().setClass(this, CheckInOutActivity.class);        
+        spec = tabHost.newTabSpec("Check Ins Outs").setIndicator("Check Ins Outs",
+                res.getDrawable(R.drawable.ic_tab_check_ins_outs))
+            .setContent(intent);
+        tabHost.addTab(spec);
+        
+        intent = new Intent().setClass(this, CheckInOutActivity.class);        
+        spec = tabHost.newTabSpec("Check Ins Outs2").setIndicator("Check Ins Outs2",
+                res.getDrawable(R.drawable.ic_tab_check_ins_outs))
+            .setContent(intent);
+        tabHost.addTab(spec);
+
+        tabHost.setCurrentTab(1);
+
+        
+        
         
         // define storage
         this.storageHelper = new StorageHelper(getApplicationContext());
-        // define service
-        this.timeTrackerService = new TimeTrackerService(storageHelper, this);
         
         
         setupWiFiListener();
         
-        updateCheckInsOutsView();
         
         
         // location listener
@@ -159,38 +185,6 @@ public class TimeTrackoid extends Activity {
 	protected void makeUseOfNewProvider(String provider) {
 		// TODO Auto-generated method stub
 		Log.i("TimeTrackoid", "makeUseOfNewProvider() — location " + provider);	
-	}
-	
-	
-	
-	// view
-	
-
-	public void updateCheckInsOutsView() {
-		Cursor cursor = this.storageHelper.getCheckInsOuts();
-        if (cursor == null) {
-            // There are no results
-            mTextView.setText("You haven't got any Check-ins nor check-outs so far.");
-        } else {
-            // Display the number of results
-            int count = cursor.getCount();
-   
-            mTextView.setText("Displaying "+count+" Check-ins/outs.");
-            
-            // Specify the columns we want to display in the result
-            String[] from = new String[] { StorageHelper.LOCATION_NAME,StorageHelper.TIME,StorageHelper.CHECK_TYPE,StorageHelper.MATCH_TYPE };
-
-            // Specify the corresponding layout elements where we want the columns to go
-            int[] to = new int[] {R.id.name,R.id.time,R.id.check_type,R.id.match_type};
-
-            // Create a simple cursor adapter for the definitions and apply them to the ListView
-
-            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.check_ins_outs_results, cursor, from, to);
-            
-            mListView.setAdapter(adapter);
-
-        }
-
 	}
 	
 	

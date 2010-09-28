@@ -15,15 +15,15 @@ public class TimeTrackerService {
 
 	private StorageHelper storageHelper;
 	
-	private TimeTrackoid timeTrackoid;
+	private CheckInOutActivity checkInOutActivity;
 	
 	public static String CHECK_IN ="CHECK-IN";
 
 	public static String CHECK_OUT ="CHECK-OUT";
 
-	public TimeTrackerService(StorageHelper storageHelper, TimeTrackoid timeTrackoid) {
+	public TimeTrackerService(StorageHelper storageHelper, CheckInOutActivity checkInOutActivity) {
 		this.storageHelper = storageHelper;
-		this.timeTrackoid = timeTrackoid;
+		this.checkInOutActivity = checkInOutActivity;
 		
 		this.currentMatch = this.storageHelper.getLastCheckInOut();
 	}
@@ -32,14 +32,14 @@ public class TimeTrackerService {
 		String name = match.getTargetLocation().getName();
 		this.storageHelper.addCheckInOut(name, CHECK_IN, match.getMatch());
 		this.currentMatch = match;
-		this.timeTrackoid.updateCheckInsOutsView();
+		this.checkInOutActivity.updateCheckInsOutsView();
 	}
 
 	protected void checkOut(TargetLocationMatch match) {
 		String name = match.getTargetLocation().getName();
 		this.storageHelper.addCheckInOut(name, CHECK_OUT, match.getMatch());
 		this.currentMatch = null;
-		this.timeTrackoid.updateCheckInsOutsView();
+		this.checkInOutActivity.updateCheckInsOutsView();
 
 	}
 
