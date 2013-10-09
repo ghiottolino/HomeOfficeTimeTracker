@@ -1,5 +1,8 @@
 package com.nicolatesser.com;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -15,6 +18,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -83,7 +87,7 @@ public class CheckInOutActivity extends Activity {
         // define storage
         this.storageHelper = new StorageHelper(getApplicationContext());
         // define service
-        this.timeTrackerService = new TimeTrackerService(storageHelper, this);
+        this.timeTrackerService = TimeTrackerService.getTimeTrackerService(storageHelper, this);
         
                
         updateCheckInsOutsView();
@@ -122,6 +126,33 @@ public class CheckInOutActivity extends Activity {
             // Create a simple cursor adapter for the definitions and apply them to the ListView
 
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.check_ins_outs_results, cursor, from, to);
+            
+            adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+                @Override
+                public boolean setViewValue(View view, Cursor cursor, int column) {
+                    if( column == 2 ){ // let's suppose that the column 0 is the date
+                        TextView tv = (TextView) view;
+                        Long timeInMillis = cursor.getLong(cursor.getColumnIndex(StorageHelper.TIME));
+                        Date date = new Date(timeInMillis);
+                        SimpleDateFormat dt = new SimpleDateFormat("hh:mm:ss"); 
+                        
+                        // here you use SimpleDateFormat to bla blah blah
+                        tv.setText("("+dt.format(date)+")");
+                        return true;
+                    }
+                    if( column == 4 ){ // let's suppose that the column 0 is the date
+                        TextView tv = (TextView) view;
+                        String match = cursor.getString(cursor.getColumnIndex(StorageHelper.MATCH_TYPE));
+                       
+                        // here you use SimpleDateFormat to bla blah blah
+                        tv.setText("("+match+")");
+                        return true;
+                    }
+                    
+                    return false;
+                }
+            });
+            
             
             mListView.setAdapter(adapter);
 

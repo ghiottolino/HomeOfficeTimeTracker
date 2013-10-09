@@ -20,8 +20,22 @@ public class TimeTrackerService {
 	public static String CHECK_IN ="CHECK-IN";
 
 	public static String CHECK_OUT ="CHECK-OUT";
+	
+	private static TimeTrackerService instance = null;
+	
+	public static TimeTrackerService getTimeTrackerService(){
+		return instance; 
+	}
+	
+	public static TimeTrackerService getTimeTrackerService(StorageHelper storageHelper, CheckInOutActivity checkInOutActivity) {
+		if (instance==null){
+			instance = new  TimeTrackerService(storageHelper, checkInOutActivity);
+		}
+		return instance;
+		
+	}
 
-	public TimeTrackerService(StorageHelper storageHelper, CheckInOutActivity checkInOutActivity) {
+	private TimeTrackerService(StorageHelper storageHelper, CheckInOutActivity checkInOutActivity) {
 		this.storageHelper = storageHelper;
 		this.checkInOutActivity = checkInOutActivity;
 		
@@ -137,6 +151,14 @@ public class TimeTrackerService {
 		location = null;
 		targetLocation = new TargetLocation(name, ssid, location);
 		targetLocations.add(targetLocation);
+		
+
+		name = "SEITENBAU";
+		ssid = "Entertain2";
+		location = null;
+		targetLocation = new TargetLocation(name, ssid, location);
+		targetLocations.add(targetLocation);
+		
 
 		return targetLocations;
 	}

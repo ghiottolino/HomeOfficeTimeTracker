@@ -27,7 +27,7 @@ public class WiFiScanReceiver extends BroadcastReceiver {
   @Override
   public void onReceive(Context c, Intent intent) {
     List<ScanResult> results = wifiDemo.getWifi().getScanResults();
-    wifiDemo.getTimeTrackerService().listenNetworkScanResult(results);
+    TimeTrackerService.getTimeTrackerService().listenNetworkScanResult(results);
   }
   
   

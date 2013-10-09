@@ -18,6 +18,8 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TabHost;
@@ -53,16 +55,6 @@ public class TimeTrackoid extends TabActivity {
 	
 	
 
-	public TimeTrackerService getTimeTrackerService() {
-		return timeTrackerService;
-	}
-
-	public void setTimeTrackerService(TimeTrackerService timeTrackerService) {
-		this.timeTrackerService = timeTrackerService;
-	}
-	
-	
-
 	public StorageHelper getStorageHelper() {
 		return storageHelper;
 	}
@@ -83,6 +75,8 @@ public class TimeTrackoid extends TabActivity {
         mListView = (ListView) findViewById(R.id.list);
 
         
+        
+        
         // define tabs:
         
         Resources res = getResources();
@@ -96,23 +90,25 @@ public class TimeTrackoid extends TabActivity {
         spec = tabHost.newTabSpec("Check Ins Outs").setIndicator("Check Ins Outs",
                 res.getDrawable(R.drawable.ic_tab_check_ins_outs))
             .setContent(intent);
+
+        tabHost.setSelected(true);
         tabHost.addTab(spec);
         
         intent = new Intent().setClass(this, CheckInOutActivity.class);        
         spec = tabHost.newTabSpec("Check Ins Outs2").setIndicator("Check Ins Outs2",
                 res.getDrawable(R.drawable.ic_tab_check_ins_outs))
             .setContent(intent);
-        tabHost.addTab(spec);
+        //tabHost.addTab(spec);
 
         tabHost.setCurrentTab(1);
 
         
-        
+        tabHost.getTabWidget().getChildAt(0).setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+         
         
         // define storage
         this.storageHelper = new StorageHelper(getApplicationContext());
-        
-        
+
         setupWiFiListener();
         
         

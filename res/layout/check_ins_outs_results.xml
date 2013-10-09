@@ -1,27 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="5dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:padding="5dp" >
 
+    <TextView
+        android:id="@+id/name"
+        style="@android:style/TextAppearance.Medium"
+        android:layout_width="wrap_content"
+        android:text="Name"
+        android:layout_height="wrap_content" 
+        android:layout_marginRight="15dp"/>
 
+    <TextView
+        android:id="@+id/time"
+        style="@android:style/TextAppearance.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time"
+        android:layout_toRightOf="@+id/name" />
 
-	<TextView android:id="@+id/name" style="@android:style/TextAppearance.Large"
-		android:layout_width="wrap_content" android:layout_height="wrap_content" />
-	<TextView android:id="@+id/time" style="@android:style/TextAppearance.Small"
-		android:singleLine="true" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" />
-	<TextView android:id="@+id/check_type" style="@android:style/TextAppearance.Small"
-		android:singleLine="true" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" />
-	<TextView android:id="@+id/match_type" style="@android:style/TextAppearance.Small"
-		android:singleLine="true" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/check_type"
+        style="@android:style/TextAppearance.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="type"
+        android:layout_below="@+id/name"
+        android:layout_marginRight="15dp"/>
 
+    <TextView
+        android:id="@+id/match_type"
+        style="@android:style/TextAppearance.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="match" 
+        android:layout_below="@+id/name"
+        android:layout_toRightOf="@+id/check_type"/>
 
-
-
-
-
-</LinearLayout>
+</RelativeLayout>
